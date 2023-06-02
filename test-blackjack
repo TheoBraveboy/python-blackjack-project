@@ -1,0 +1,77 @@
+import random
+from art import logo
+from replit import clear 
+def BlackJack():
+  print(logo)
+  def deal_card():
+    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+    card = random.choice(cards)
+    return card 
+      
+  user_cards = []
+  computer_cards = []
+  game_over = False
+  for x in range(2):
+    user_cards.append(deal_card())
+    computer_cards.append(deal_card())
+   
+  def calculate_score(x):
+    """Takes a list of cards and return the sum of the cards."""
+    a =  sum(x)
+    if len(x) == 2 and a == 21 and 11 in x:
+      return 0
+    if a > 21 and 11 in x:
+        x.remove(11)
+        x.append(1)
+    else:
+      return sum(x)
+  
+  def compare(user_score, computer_score):
+    if user_score and computer_score == 0 :
+      print(" I'ts a Draw you tied")
+    elif computer_score == 0 :
+      print("Computer Wins with a BlackJack")
+    elif user_score == 0 :
+      print("User Wins with a Black Jack.")
+    elif user_score > 21:
+      print(f"You Lose you got a {user_score}")
+    elif computer_score > 21:
+      print(f"Computer lose. It had a {computer_score}")
+    elif user_score > computer_score:
+      print(f"You Win You Had {user_score} and the computer had {computer_score}")
+    elif computer_score > user_score:
+      print(f"You Lose You Had a Score of {user_score} and the computer had a score of {computer_score}")
+      
+  while not game_over :
+    user_score = calculate_score(user_cards)
+    computer_score = calculate_score(computer_cards)
+    print(f"Your cards:{user_cards}, Current score:{user_score}") 
+    print(f"Computer score: {computer_cards[0]}")
+    
+    if user_score == 0 or computer_score == 0 or user_score > 21:
+      compare(user_score,computer_score)
+      game_over = True
+    else:
+      should_continue = input("Do you want to draw again?: hit 'y' or 'n '")
+      if should_continue == "y":
+        user_cards.append(deal_card())
+        
+      else: 
+          print(f"Computer Cards: {computer_cards},Computer Score: {computer_score}")
+          compare(user_score,computer_score)
+          game_over = True
+      
+  while computer_score < 17 and not game_over:
+          computer_cards.append(deal_card())
+          computer_score = calculate_score(computer_cards)
+  
+  
+            
+        
+  new_game = input("Do you want to play again? press 'y' to start again or 'n' to exit: ")
+  if new_game == "y":
+    clear()
+    BlackJack()
+  elif new_game == 'n':
+    print("Thanks for playing.")
+BlackJack()
